@@ -56,7 +56,7 @@ public class UserController {
 		
 		for (UserDto userDto:users) {
 			 ModelMapper modelMapper = new ModelMapper();
-			 UserResponse userResponse = modelMapper.map(userDto, UserResponse.class);
+			UserResponse userResponse = modelMapper.map(userDto, UserResponse.class);
 //			 UserResponse user = new UserResponse();
 //			BeanUtils.copyProperties(userDto, user);
 			usersResponse.add(userResponse);

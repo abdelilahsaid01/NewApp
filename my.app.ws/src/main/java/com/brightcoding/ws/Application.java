@@ -12,8 +12,7 @@ public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-		System.out.println("SpringBoot Start.........");
-		System.out.println("hello word");
+		System.out.println("SpringBoot Start...............");
 	}
 	
 	 @Override
