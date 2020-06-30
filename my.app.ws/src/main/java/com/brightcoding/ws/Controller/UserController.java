@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,11 +39,12 @@ public class UserController {
 	@GetMapping(path="/{id}",produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})//Produce car elle va produire des donnée la sérialisation	//Envois des donnée en format xml pas Json 
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id){	 
 		UserDto userDto=userService.getUserByUserId(id);
-		UserResponse userResponse= new UserResponse();
-		BeanUtils.copyProperties(userDto, userResponse);
+		ModelMapper modelMapper= new ModelMapper();
+		UserResponse userResponse= modelMapper.map(userDto, UserResponse.class);
+//		UserResponse userResponse= new UserResponse();
+//		BeanUtils.copyProperties(userDto, userResponse);
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.OK);	//status 200
-			}
-	
+			};
 	
 	@GetMapping	//Réception d'une list des users. C'est ps la peine d'indiquer le Id
 	public ResponseEntity<List<UserResponse>> getAllUsers(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "4") int limit,
@@ -52,7 +52,6 @@ public class UserController {
 	@RequestParam(value = "status", defaultValue = "0") int status){	//Réception des valeurs des paramètres de URL
 		List<UserResponse> usersResponse = new ArrayList<>();
 		List<UserDto> users = userService.getUsers(page, limit,search,status);
-		
 		for (UserDto userDto:users) {
 			 ModelMapper modelMapper = new ModelMapper();
 			UserResponse userResponse = modelMapper.map(userDto, UserResponse.class);
@@ -77,26 +76,25 @@ public class UserController {
 		
 		ModelMapper modelMapper = new ModelMapper();
 		UserDto userDao = modelMapper.map(userRequest, UserDto.class);	//mapping une instance d'une classe vers une autres, mieux que d'utiliser CopyProperties
-		
 		UserDto createUser= userService.createUser(userDao);
 //		UserResponse userResponse = new UserResponse();
 //		BeanUtils.copyProperties(createUser, userResponse);
-		UserResponse userResponse = modelMapper.map(createUser, UserResponse.class);	//Cette écriture est équivalente aux deux lignes au-dessus
-		
-		
+		UserResponse userResponse = modelMapper.map(createUser, UserResponse.class);	//Cette écriture est équivalente aux deux lignes au-dessus	
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.CREATED); // Status 201
-	}
-	
+	}	
 	
 	
 	@PutMapping(path="/{id}" ,  produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, //Réception(Déserialisation) soit xml ou Json
 								consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})  //Envois(Sérialisation) soit xml ou Json
 	public ResponseEntity<UserResponse> updateUser(@PathVariable String id,@RequestBody UserRequest userRequest){
-		UserDto userDao = new UserDto();
-		BeanUtils.copyProperties(userRequest, userDao);
+//		UserDto userDao = new UserDto();	
+//		BeanUtils.copyProperties(userRequest, userDao);
+		ModelMapper modelMapper = new ModelMapper();
+		UserDto userDao = modelMapper.map(userRequest, UserDto.class);
 		UserDto updateUser= userService.updateUser(id, userDao);
-		UserResponse userResponse = new UserResponse();
-		BeanUtils.copyProperties(updateUser, userResponse);
+		UserResponse userResponse = modelMapper.map(updateUser, UserResponse.class);
+//		UserResponse userResponse = new UserResponse();
+//		BeanUtils.copyProperties(updateUser, userResponse);
 		return new ResponseEntity<UserResponse>(userResponse, HttpStatus.ACCEPTED);	//Status 202
 	}
 	

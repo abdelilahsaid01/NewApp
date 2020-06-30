@@ -69,7 +69,6 @@ public class UserServiceImpl implements UserService {
 //		UserDto userDto = new UserDto();
 //		BeanUtils.copyProperties(newUser, userDto);
 		UserDto userDto= modelMapper.map(newUser, UserDto.class);
-
 		return userDto;
 	}
 
@@ -86,8 +85,12 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = userRepositery.findByEmail(email);
 		if (userEntity == null)
 			throw new UsernameNotFoundException(email);
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(userEntity, userDto);
+		
+		ModelMapper modelMapper= new ModelMapper();
+		UserDto userDto= modelMapper.map(userEntity, UserDto.class);
+
+//		UserDto userDto = new UserDto();
+//		BeanUtils.copyProperties(userEntity, userDto);
 		return userDto;
 	}
 
@@ -96,8 +99,10 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = userRepositery.findByUserId(userId);
 		if (userEntity == null)
 			throw new UsernameNotFoundException(userId);
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(userEntity, userDto);
+		ModelMapper modelMapper= new ModelMapper();
+		UserDto userDto= modelMapper.map(userEntity, UserDto.class);
+//		UserDto userDto = new UserDto();
+//		BeanUtils.copyProperties(userEntity, userDto);
 		return userDto;
 	}
 
@@ -109,8 +114,10 @@ public class UserServiceImpl implements UserService {
 		userEntity.setFirstName(userDto.getFirstName());
 		userEntity.setLastName(userDto.getLastName());
 		UserEntity updateUser = userRepositery.save(userEntity);
-		UserDto user = new UserDto();
-		BeanUtils.copyProperties(updateUser, user);
+		ModelMapper modelMapper= new ModelMapper();
+		UserDto user= modelMapper.map(updateUser, UserDto.class);
+//		UserDto user = new UserDto();
+//		BeanUtils.copyProperties(updateUser, user);
 		return user;
 	}
 

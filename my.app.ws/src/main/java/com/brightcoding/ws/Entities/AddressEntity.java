@@ -36,6 +36,8 @@ public class AddressEntity implements Serializable {
 	@Column(length = 20, nullable = false)
 	private String type;
 	
+	
+	
 	@ManyToOne	//Many Objet of Adress for one Object of user
 	@JoinColumn(name="users_id")	//Liaison (nom de la table(users) + son id de (users)	//Foreincky
 	private UserEntity user;
@@ -103,5 +105,6 @@ public class AddressEntity implements Serializable {
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}
+
 
 }

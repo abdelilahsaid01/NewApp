@@ -46,6 +46,9 @@ public class UserEntity implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus=false;
 	
+	@Column(nullable = true)
+	private Boolean admin=false;
+	
 	@OneToMany(mappedBy ="user",fetch = FetchType.EAGER, cascade = CascadeType.ALL )	//mappedBy : Lier les adresses avec l'objet user de la classe AdressEntity. Chaque objet user peut avoir plusieurs Adress
 	private List<AddressEntity> addresses;	//Cascade: créer une liste des adress dans tous les cas (Get/Post/Delete..)
 
@@ -141,6 +144,14 @@ public class UserEntity implements Serializable {
 
 	public void setGroups(Set<GroupEntity> groups) {
 		this.groups = groups;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 	
 	

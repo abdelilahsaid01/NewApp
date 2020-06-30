@@ -34,6 +34,15 @@ public class UserRequest {
 																																											// expréssions
 																																											// régulières
 	private String password;
+	private Boolean admin;
+	
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
 
 	private List<AdressRequest> addresses;
 	private ContactRequest contact;
