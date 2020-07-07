@@ -31,13 +31,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //			.antMatchers(HttpMethod.POST,"/users")	//N'accepter que les request httpPost de Racine users
 			.antMatchers(HttpMethod.POST,SecurityConstants.SIGN_UP_URL)
 			.permitAll()
+			.antMatchers( "/swagger-resources/**",
+			        "/swagger-ui.html",
+			        "/v2/api-docs",
+			        "/webjars/**")
+			.permitAll()
 				.anyRequest().authenticated().
 				and().addFilter(getAuthenticationFilter())
 				.addFilter(new AuthorizationFilter(authenticationManager()))
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);	//En mode MicroService 'cest recommendé de garder cette session en status
-				//.and().addFilter(new AuthenticationFilter(authenticationManager()));
-		
+				//.and().addFilter(new AuthenticationFilter(authenticationManager()));		
 	}
 	
 	protected AuthenticationFilter getAuthenticationFilter() throws Exception{
